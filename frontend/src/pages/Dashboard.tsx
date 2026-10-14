@@ -1,0 +1,15 @@
+import { useEffect, useState } from 'react';
+import { Button } from '../components/ui/Button';
+import { Panel } from '../components/ui/Panel';
+import { loadProjects, saveProjects, presets, type Project } from '../services/projects';
+export function Dashboard() {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [ready, setReady] = useState(false);
+  const [error, setError] = useState('');
+  const [name, setName] = useState('');
+  const [aspect, setAspect] = useState<Project['aspect']>('9:16');
+  const [search, setSearch] = useState('');
+  useEffect(() => { try { setProjects(loadProjects()); setReady(true); } catch (e) { setError(e instanceof Error ? e.message : 'Storage unavailable'); } }, []);
+  function update(next: Project[]) { try { saveProjects(next); setProjects(next); setError(''); } catch { setError('Could not save. Browser storage may be full or blocked.'); } }
+  return <><p className="eyebrow">LOCAL WORKSPACE</p><h1>Your projects.</h1><p className="intro">Saved on this PC in this browser. Video editing and media import are coming in the next stage.</p>{error && <p role="alert">{error}</p>}<Panel><h2>New project</h2><form onSubmit={(event) => { event.preventDefault(); if (!name.trim() || !ready) return; update([...projects, { id: crypto.randomUUID(), name: name.trim(), aspect, updatedAt: Date.now() }]); setName(''); }}><label>Project name <input required maxLength={120} value={name} onChange={(e) => setName(e.target.value)}/></label><label> Aspect ratio <select value={aspect} onChange={(e) => setAspect(e.target.value as Project['aspect'])}>{presets.map((preset) => <option key={preset}>{preset}</option>)}</select></label> <Button type="submit" disabled={!ready}>Create project</Button></form></Panel><div className="project-heading"><h2>Recent projects</h2><input aria-label="Search projects" placeholder="Search projects" value={search} onChange={(e) => setSearch(e.target.value)}/></div>{!ready && !error && <p role="status">Loading projects…</p>}{ready && projects.length === 0 && <p>No projects yet. Create your first project above.</p>}<div className="grid">{projects.filter((p) => p.name.toLowerCase().includes(search.toLowerCase())).sort((a,b) => b.updatedAt-a.updatedAt).map((p) => <Panel key={p.id}><div className="project-thumbnail">{p.aspect}</div><h2>{p.name}</h2><p>{new Date(p.updatedAt).toLocaleString()}</p><div className="project-actions"><Button variant="secondary" onClick={() => { const next = window.prompt('Rename project', p.name); if (next?.trim()) update(projects.map((item) => item.id === p.id ? { ...item, name: next.trim().slice(0,120), updatedAt: Date.now() } : item)); }}>Rename</Button><Button variant="secondary" onClick={() => update([...projects, { ...p, id: crypto.randomUUID(), name: `${p.name} copy`, updatedAt: Date.now() }])}>Duplicate</Button><Button variant="secondary" onClick={() => { if (window.confirm(`Delete ${p.name}?`)) update(projects.filter((item) => item.id !== p.id)); }}>Delete</Button></div></Panel>)}</div></>;
+}

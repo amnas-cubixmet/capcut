@@ -46,3 +46,20 @@ Install FFmpeg (including ffprobe) on your machine. Open http://localhost:8000/d
 `GET /api/v1/health` checks API availability. `GET /api/v1/capabilities` reports installed tools and unavailable AI/render features. `GET /api/v1/media/{uuid}/metadata` probes a trusted local file at `storage/media/{uuid}/source.ext` relative to the backend working directory, or CUTCRAFT_MEDIA_ROOT. No uploads are accepted. Frontend Settings can query backend status with VITE_API_BASE_URL.
 
 Alternatively `docker compose up --build` runs the API on localhost with a read-only media mount at repository-root storage/media. This is a local development service: authentication, tenant isolation, PostgreSQL, S3 uploads, rate limiting, hostile-media sandboxing, Redis/Celery queues and MP4 rendering must be implemented before public hosting. Docker configuration has not been runtime-validated unless explicitly reported.
+
+## Windows local-first workflow
+
+No login, PostgreSQL or cloud storage is required for the current frontend. Open /projects to create, search, rename, duplicate and delete local project metadata. Browser localStorage holds metadata only; imported video storage and the editor are not implemented yet. Clearing browser site data deletes saved projects; different browsers and ports have separate storage.
+
+Windows PowerShell:
+
+```powershell
+git clone https://github.com/amnas-cubixmet/capcut.git
+cd capcut
+git switch feat/frontend-editor
+cd frontend
+npm ci
+npm run dev -- --host 127.0.0.1 --port 5173 --strictPort
+```
+
+Open http://127.0.0.1:5173/projects. Keep the same browser and address to reopen saved projects. First installation needs internet; the current local project dashboard runs without the backend. Future video storage will use IndexedDB with explicit file backups. Windows execution has not been tested in this Linux environment.
