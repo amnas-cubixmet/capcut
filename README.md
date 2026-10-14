@@ -26,3 +26,23 @@ CI runs installation, lint, interaction tests and production compilation on push
 ## Scope and next stages
 
 The home route is a foundation landing screen, not a dashboard or editor. Preferences and the information dialog work. Dashboard project CRUD, IndexedDB media, timeline editing, effects, backend AI and rendering remain future stages. No backend is required to run this foundation.
+
+## Backend foundation
+
+The repository is no longer empty. The feature branch contains the frontend foundation and a local FastAPI API. AI processing and the professional timeline remain future implementation stages.
+
+```sh
+cd backend
+python -m venv .venv
+# Linux/macOS:
+source .venv/bin/activate
+# Windows PowerShell: .venv\Scripts\Activate.ps1
+pip install -r requirements-dev.txt
+uvicorn app.main:app --reload
+```
+
+Install FFmpeg (including ffprobe) on your machine. Open http://localhost:8000/docs for API documentation. Environment configuration uses CUTCRAFT_ prefixed process variables; .env.example is a reference, not automatically loaded. Run `ruff check app tests` and `python -m pytest -q` in backend. Tests use FFmpeg to generate a real audio fixture.
+
+`GET /api/v1/health` checks API availability. `GET /api/v1/capabilities` reports installed tools and unavailable AI/render features. `GET /api/v1/media/{uuid}/metadata` probes a trusted local file at `storage/media/{uuid}/source.ext` relative to the backend working directory, or CUTCRAFT_MEDIA_ROOT. No uploads are accepted. Frontend Settings can query backend status with VITE_API_BASE_URL.
+
+Alternatively `docker compose up --build` runs the API on localhost with a read-only media mount at repository-root storage/media. This is a local development service: authentication, tenant isolation, PostgreSQL, S3 uploads, rate limiting, hostile-media sandboxing, Redis/Celery queues and MP4 rendering must be implemented before public hosting. Docker configuration has not been runtime-validated unless explicitly reported.

@@ -5,3 +5,11 @@ coverage/
 .env.*
 !.env.example
 *.local
+
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+*.pyc
+storage/media/*
+!storage/media/.gitkeep
