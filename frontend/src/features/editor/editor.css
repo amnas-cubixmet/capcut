@@ -1,0 +1,74 @@
+.app-editor-main { max-width: none; margin: 0; padding: 0; }
+.cutcraft-editor { --editor-border:#293241; --editor-fg:#edf2f7; --editor-muted:#9aa9bc; background:#0d1119; color:var(--editor-fg); min-height:100dvh; display:flex; flex-direction:column; font-size:13px; }
+.cutcraft-editor button { border:1px solid #354052; color:#e7edf4; background:#202938; border-radius:7px; padding:8px 10px; display:inline-flex; align-items:center; justify-content:center; gap:7px; font-weight:500; }
+.cutcraft-editor button:hover:not(:disabled) { background:#334257; }
+.cutcraft-editor button:focus-visible,.cutcraft-editor input:focus-visible,.cutcraft-editor textarea:focus-visible,.cutcraft-editor a:focus-visible { outline:2px solid #b7f36b; outline-offset:2px; }
+.cutcraft-editor button:disabled { cursor:not-allowed; }
+.cutcraft-editor input,.cutcraft-editor textarea { color:#edf2f7; background:#151c29; border:1px solid #344054; padding:8px; border-radius:7px; min-width:0; }
+.cutcraft-editor h2 { font-size:15px; margin:0 0 18px; display:flex; gap:9px; align-items:center; }
+.editor-topbar { display:flex; align-items:center; gap:16px; border-bottom:1px solid var(--editor-border); background:#131923; padding:11px 18px; min-height:62px; }
+.editor-topbar>a { border:1px solid #354052; border-radius:8px; padding:8px; display:inline-flex; }
+.editor-topbar strong { font-size:15px; }
+.editor-topbar span { color:var(--editor-muted); font-size:12px; }
+.editor-toolbar-actions { margin-left:auto; display:flex; align-items:center; gap:8px; }
+.cutcraft-editor .editor-disabled-export { display:inline-flex; align-items:center; border:1px dashed #445164; border-radius:7px; padding:9px 10px; }
+.editor-status { display:flex; align-items:center; flex-wrap:wrap; gap:14px; padding:8px 18px; color:#b7f36b; background:#1c2825; font-size:12px; }
+.editor-error { color:#ff9999; }
+.editor-workspace { display:grid; grid-template-columns:minmax(225px,20%) minmax(310px,1fr) minmax(245px,21%); min-height:390px; flex:1; }
+.editor-library,.editor-inspector { padding:20px 16px; background:#151b27; min-width:0; }
+.editor-library { border-right:1px solid var(--editor-border); }
+.editor-inspector { border-left:1px solid var(--editor-border); }
+.editor-library>p,.editor-inspector>p { line-height:1.55; color:var(--editor-muted); }
+.cutcraft-editor .editor-import { color:#14200f; background:#b7f36b; border:0; width:100%; margin:10px 0 18px; padding:12px; font-weight:700; }
+.editor-assets { display:flex; flex-direction:column; gap:8px; max-height:370px; overflow:auto; }
+.editor-asset { display:flex; align-items:center; gap:9px; background:#202938; border:1px solid #303949; padding:9px; border-radius:9px; min-width:0; }
+.editor-asset>svg { color:#b7f36b; flex-shrink:0; }
+.editor-asset>div { flex:1; min-width:0; }
+.editor-asset strong { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:12px; }
+.editor-asset small { display:block; font-size:11px; color:#99a6b5; margin-top:5px; }
+.cutcraft-editor .editor-asset button { flex-shrink:0; border:0; padding:5px; background:transparent; }
+.cutcraft-editor .editor-asset button:hover { color:#b7f36b; }
+.editor-empty { padding:18px; border:1px dashed #3a4555; border-radius:8px; text-align:center; color:#9daab9; line-height:1.7; }
+.cutcraft-editor .editor-text-action { width:100%; margin-top:20px; }
+.editor-preview-panel { display:flex; flex-direction:column; min-width:0; background:#0e131d; padding:14px 24px 18px; justify-content:center; }
+.editor-preview-heading { display:flex; justify-content:space-between; color:#9aa6b8; letter-spacing:1px; font-size:10px; margin-bottom:12px; }
+.editor-preview-stage { display:flex; align-items:center; justify-content:center; flex:1; min-height:260px; max-height:520px; padding:14px; background:#0a0e15; border-radius:9px; }
+.editor-preview { position:relative; max-width:100%; max-height:485px; display:flex; align-items:center; justify-content:center; background:#000; min-width:0; overflow:hidden; box-shadow:0 12px 35px #0008; }
+.editor-preview video,.editor-preview img { display:block; width:100%; height:100%; object-fit:contain; min-width:0; min-height:0; }
+.editor-preview-empty { display:flex; flex-direction:column; gap:14px; align-items:center; justify-content:center; text-align:center; padding:28px; color:#738198; }
+.editor-preview-text { pointer-events:none; position:absolute; z-index:2; bottom:12%; left:5%; width:90%; color:white; font-weight:750; text-align:center; font-size:clamp(16px,2.5vw,36px); text-shadow:1px 2px 4px #000,0 0 12px #000; overflow-wrap:anywhere; }
+.editor-controls { display:flex; align-items:center; justify-content:center; gap:14px; padding:14px 0 4px; }
+.editor-time { color:#b9c4d1; font-variant-numeric:tabular-nums; min-width:100px; }
+.cutcraft-editor .editor-seek { accent-color:#b7f36b; width:100%; height:8px; margin:10px 0; padding:0; }
+.editor-inspector-title { border:1px solid #344054; padding:11px; border-radius:8px; display:flex; gap:10px; align-items:center; min-width:0; margin-bottom:20px; }
+.editor-inspector-title strong { overflow-wrap:anywhere; }
+.editor-inspector label { display:flex; flex-direction:column; gap:7px; margin:14px 0; color:#c9d5e0; font-size:12px; }
+.editor-inspector label>svg { display:inline; }
+.editor-inspector input[type=range] { padding:0; accent-color:#b7f36b; width:100%; }
+.editor-inspector-buttons { display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
+.editor-timeline-panel { background:#131a25; border-top:1px solid var(--editor-border); height:290px; display:flex; flex-direction:column; min-height:220px; }
+.editor-timeline-top { display:flex; justify-content:space-between; align-items:center; gap:15px; padding:12px 16px; border-bottom:1px solid var(--editor-border); }
+.editor-timeline-top>div { display:flex; align-items:center; gap:12px; }
+.editor-timeline-top span { color:#94a3b8; font-size:11px; }
+.cutcraft-editor .editor-timeline-top button { padding:6px; }
+.editor-timeline-scroll { overflow:auto; flex:1; }
+.editor-ruler { display:flex; min-height:28px; border-bottom:1px solid #303b4b; position:relative; cursor:crosshair; }
+.editor-ruler>span { background:#1e2835; width:94px; flex:none; padding:7px 10px; color:#94a3b8; z-index:2; font-size:11px; }
+.editor-ruler>div { position:relative; flex:1; }
+.editor-ruler>div span { position:absolute; top:6px; color:#94a3b8; font-size:10px; border-left:1px solid #667689; padding-left:3px; font-variant-numeric:tabular-nums; }
+.editor-timeline-inner { position:relative; min-height:153px; }
+.editor-track-row { display:flex; min-height:52px; border-bottom:1px solid #283343; }
+.editor-track-name { padding:14px 12px; width:94px; flex:none; background:#1b2431; color:#8ea0b4; letter-spacing:1px; font-size:10px; position:sticky; left:0; z-index:3; border-right:1px solid #303c4b; }
+.editor-track-lane { flex:1; position:relative; background:repeating-linear-gradient(to right,transparent 0, transparent 159px,#2a3443 159px,#2a3443 160px); }
+.cutcraft-editor .editor-clip { position:absolute; top:6px; bottom:6px; height:39px; overflow:hidden; justify-content:flex-start; white-space:nowrap; text-overflow:ellipsis; padding:8px; min-width:20px; border-radius:5px; font-size:11px; }
+.editor-clip span { text-overflow:ellipsis; overflow:hidden; }
+.cutcraft-editor .clip-video { border:1px solid #527e5b; background:#244b3b; }
+.cutcraft-editor .clip-audio { border:1px solid #8768b2; background:#463061; }
+.cutcraft-editor .clip-text { border:1px solid #a88641; background:#574323; }
+.cutcraft-editor .editor-clip.selected { outline:2px solid #d8ff97; outline-offset:-2px; }
+.editor-playhead { position:absolute; top:0; height:100%; width:2px; background:#ffe58b; z-index:4; pointer-events:none; }
+.editor-playhead::before { content:""; position:absolute; left:-6px; top:-7px; border-left:7px solid transparent; border-right:7px solid transparent; border-top:9px solid #ffe58b; }
+.editor-footnote { font-size:11px; color:#98a9bc; margin:0; padding:9px 16px; border-top:1px solid var(--editor-border); }
+.editor-missing { padding:40px; min-height:70vh; }
+@media (max-width:1100px) { .editor-workspace { grid-template-columns:220px minmax(300px,1fr); } .editor-inspector { grid-column:1/-1; border-top:1px solid var(--editor-border); border-left:0; } .editor-inspector label { display:inline-flex; width:calc(33.33% - 16px); margin-right:12px; vertical-align:top; } .editor-timeline-panel { height:320px; } }
+@media (max-width:700px) { .editor-topbar { flex-wrap:wrap; padding:10px; } .editor-toolbar-actions { width:100%; margin-left:0; flex-wrap:wrap; } .editor-disabled-export { display:none!important; } .editor-workspace { display:flex; flex-direction:column; } .editor-library { border-right:0; border-bottom:1px solid var(--editor-border); } .editor-assets { max-height:170px; } .editor-preview-panel { min-height:360px; padding:16px; } .editor-preview-stage { min-height:230px; } .editor-inspector label { width:100%; } .editor-timeline-top { align-items:flex-start; flex-direction:column; } .editor-timeline-top span { display:none; } .editor-track-name { width:70px; } .editor-timeline-panel { height:280px; } }
