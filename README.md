@@ -1,6 +1,17 @@
 # CutCraft Studio
 
-Original frontend foundation for a CapCut-inspired browser video editor. This stage does not implement video editing, AI processing or export.
+An original, CapCut-inspired local-first browser video editor. The feature branch now includes a basic editor and timeline; professional compositing, AI processing and MP4 rendering are still under development.
+
+## Current editor (feature branch)
+
+Open `/projects`, create a project, then select **Open editor**. The `/editor/:projectId` route includes:
+
+- Import of local browser-supported video, audio, and image files into IndexedDB; media remains on this computer, in this browser profile.
+- Separate visual, audio, and text timeline lanes; add, select, trim, split video/audio, duplicate and delete clips; reorder visual clips.
+- HTML video/image preview with text overlays and basic audio-track monitoring, play/pause, timeline seek, zoom, keyboard shortcuts, and basic undo/redo.
+- Autosaved project edit decisions in localStorage and a JSON edit-decision download. **The JSON does not include media files and is not a portable full-project backup.**
+
+This editor is an early functional slice, **not a CapCut feature-complete clone**. Multi-source visual compositing, advanced keyframes, transitions/effects, waveform editing, proxy handling, AI tools, robust browser compatibility, optimized large-project performance, and real MP4 export remain future work. The frontend does not upload media to the API. Clearing browser storage removes local projects/media; back up original files separately.
 
 ## Local development
 
@@ -25,7 +36,7 @@ CI runs installation, lint, interaction tests and production compilation on push
 
 ## Scope and next stages
 
-The home route is a foundation landing screen, not a dashboard or editor. Preferences and the information dialog work. Dashboard project CRUD, IndexedDB media, timeline editing, effects, backend AI and rendering remain future stages. No backend is required to run this foundation.
+The home route is a landing screen; project CRUD and the basic editor are available on the feature branch. Advanced effects, backend AI and rendering remain future stages. No backend is required to run the frontend.
 
 ## Backend foundation
 
@@ -49,7 +60,7 @@ Alternatively `docker compose up --build` runs the API on localhost with a read-
 
 ## Windows local-first workflow
 
-No login, PostgreSQL or cloud storage is required for the current frontend. Open /projects to create, search, rename, duplicate and delete local project metadata. Browser localStorage holds metadata only; imported video storage and the editor are not implemented yet. Clearing browser site data deletes saved projects; different browsers and ports have separate storage.
+No login, PostgreSQL or cloud storage is required for the current frontend. Open /projects to create, search, rename, duplicate and delete local project metadata, then open a project in the editor. localStorage holds project metadata and clip decisions; IndexedDB stores imported media. Clearing browser site data deletes these records; different browsers and ports have separate storage. Duplicating a project currently duplicates the dashboard metadata, not its edit timeline.
 
 Windows PowerShell:
 
