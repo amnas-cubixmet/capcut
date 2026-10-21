@@ -33,7 +33,7 @@
 .editor-preview-panel { display:flex; flex-direction:column; min-width:0; background:#0e131d; padding:14px 24px 18px; justify-content:center; }
 .editor-preview-heading { display:flex; justify-content:space-between; color:#9aa6b8; letter-spacing:1px; font-size:10px; margin-bottom:12px; }
 .editor-preview-stage { display:flex; align-items:center; justify-content:center; flex:1; min-height:260px; max-height:520px; padding:14px; background:#0a0e15; border-radius:9px; }
-.editor-preview { position:relative; max-width:100%; max-height:485px; display:flex; align-items:center; justify-content:center; background:#000; min-width:0; overflow:hidden; box-shadow:0 12px 35px #0008; }
+.editor-preview { position:relative; height:min(390px,42vh); width:auto; max-width:100%; max-height:485px; display:flex; align-items:center; justify-content:center; background:#000; min-width:0; overflow:hidden; box-shadow:0 12px 35px #0008; }
 .editor-preview video,.editor-preview img { display:block; width:100%; height:100%; object-fit:contain; min-width:0; min-height:0; }
 .editor-preview-empty { display:flex; flex-direction:column; gap:14px; align-items:center; justify-content:center; text-align:center; padding:28px; color:#738198; }
 .editor-preview-text { pointer-events:none; position:absolute; z-index:2; bottom:12%; left:5%; width:90%; color:white; font-weight:750; text-align:center; font-size:clamp(16px,2.5vw,36px); text-shadow:1px 2px 4px #000,0 0 12px #000; overflow-wrap:anywhere; }
