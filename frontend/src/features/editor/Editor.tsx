@@ -182,6 +182,11 @@ export function Editor() {
       const sourceTime = clip.start + (time - clip.position);
       if (Math.abs(videoRef.current.currentTime - sourceTime) > 0.08) videoRef.current.currentTime = sourceTime;
     }
+    const audio = docRef.current.clips.find((item) => item.kind === 'audio' && time >= item.position && time < endOf(item));
+    if (audio && audioRef.current && audio.id === activeAudio?.id) {
+      const sourceTime = audio.start + time - audio.position;
+      if (Math.abs(audioRef.current.currentTime - sourceTime) > 0.2) audioRef.current.currentTime = sourceTime;
+    }
   }
   function updateClip(patch: Partial<Clip>) {
     if (!selectedClip) return;
@@ -242,10 +247,10 @@ export function Editor() {
   }
   function splitAtPlayhead() {
     const time = playheadRef.current;
-    const target = (selectedClip && visual(selectedClip) && time > selectedClip.position + 0.05 && time < endOf(selectedClip) - 0.05)
+    const target = (selectedClip && selectedClip.kind !== 'text' && time > selectedClip.position + 0.05 && time < endOf(selectedClip) - 0.05)
       ? selectedClip
-      : clips.find((clip) => visual(clip) && time > clip.position + 0.05 && time < endOf(clip) - 0.05);
-    if (!target) { setNotice('Place the playhead inside a video or image clip to split.'); return; }
+      : clips.find((clip) => clip.kind !== 'text' && time > clip.position + 0.05 && time < endOf(clip) - 0.05);
+    if (!target) { setNotice('Place the playhead inside a video, audio or image clip to split.'); return; }
     const midpoint = target.start + time - target.position;
     const first: Clip = { ...target, end: midpoint };
     const second: Clip = { ...target, id: crypto.randomUUID(), start: midpoint, position: time };
@@ -290,7 +295,7 @@ export function Editor() {
       Math.abs(element.currentTime - expected) > 0.12) element.currentTime = expected;
     if (playing) void element.play().catch(() => setPlaying(false));
     else element.pause();
-  }, [activeVisual?.id, activeVisual?.kind, activeVisual?.assetId, urls, playing]);
+  }, [activeVisual, urls, playing]);
 
   useEffect(() => {
     const element = audioRef.current;
@@ -302,26 +307,24 @@ export function Editor() {
     element.volume = activeAudio.volume;
     if (playing) void element.play().catch(() => undefined);
     else element.pause();
-  }, [activeAudio?.id, activeAudio?.assetId, activeAudio?.volume, urls, playing]);
+  }, [activeAudio, urls, playing]);
 
   useEffect(() => {
-    if (!playing || !activeVisual || activeVisual.kind !== 'image') return;
+    if (!playing || (activeVisual && activeVisual.kind !== 'image') || totalDuration <= 0) return;
     let frame = 0;
     let last = performance.now();
     function tick(now: number) {
-      const delta = (now - last) / 1000;
+      const delta = Math.min((now - last) / 1000, 0.1);
       last = now;
-      const next = playheadRef.current + delta;
-      if (activeVisual && next >= endOf(activeVisual)) {
-        seek(endOf(activeVisual));
-      } else {
-        seek(next);
-        frame = requestAnimationFrame(tick);
-      }
+      const limit = activeVisual ? endOf(activeVisual) : totalDuration;
+      const next = Math.min(limit, playheadRef.current + delta);
+      playheadRef.current = next;
+      setPlayhead(next);
+      if (next < limit) frame = requestAnimationFrame(tick);
     }
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [playing, activeVisual?.id, activeVisual?.kind]);
+  }, [playing, activeVisual, totalDuration]);
 
   useEffect(() => {
     if (playing && playhead >= totalDuration && totalDuration > 0) setPlaying(false);
@@ -460,7 +463,7 @@ export function Editor() {
             <input type="range" min={0} max={1} step={0.01} value={selectedClip.volume}
               onChange={(event) => updateClip({ volume: Number(event.target.value) })} /></label>}
           <div className="editor-inspector-buttons">
-            <button onClick={splitAtPlayhead} disabled={!visual(selectedClip)}><Scissors size={16} /> Split</button>
+            <button onClick={splitAtPlayhead} disabled={selectedClip.kind === 'text'}><Scissors size={16} /> Split</button>
             <button onClick={duplicateSelected}><Copy size={16} /> Duplicate</button>
             <button onClick={deleteSelected}><Trash2 size={16} /> Delete</button>
           </div>
