@@ -86,8 +86,14 @@ export async function inspectDuration(file: File, kind: MediaKind): Promise<numb
     return await new Promise<number>((resolve, reject) => {
       const element = document.createElement(kind);
       element.preload = 'metadata';
-      const timeout = window.setTimeout(() => reject(new Error('Media metadata timed out.')), 15000);
-      function cleanup() { window.clearTimeout(timeout); element.removeAttribute('src'); element.load(); }
+      const timeout = window.setTimeout(() => { cleanup(); reject(new Error('Media metadata timed out.')); }, 15000);
+      function cleanup() {
+        window.clearTimeout(timeout);
+        element.onloadedmetadata = null;
+        element.onerror = null;
+        element.removeAttribute('src');
+        element.load();
+      }
       element.onloadedmetadata = () => {
         const duration = element.duration;
         cleanup();
